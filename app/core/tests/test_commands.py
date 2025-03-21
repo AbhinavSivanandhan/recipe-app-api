@@ -17,7 +17,7 @@ class CommandTests(SimpleTestCase):
 
         call_command('wait_for_db')
 
-        patched_check.assert_called_once_with(database=['default']) #basically checks it we call the right thing once
+        patched_check.assert_called_once_with(databases=['default']) #basically checks it we call the right thing once
 
     @patch('time.sleep')
     def test_wait_for_db_delay(self, patched_sleep, patched_check): #Note on decorators+argument is, inside decorators comes first in order of arguments, outside decorator comes later
@@ -26,4 +26,4 @@ class CommandTests(SimpleTestCase):
             [OperationalError] * 3 + [True]
         call_command('wait_for_db')
         self.assertEqual(patched_check.call_count, 6) #2 times to check Psycopg2Error, 3 times to check OperationalError, final time to actually get returned value. so our code should call 6 times, make sure we do that there!
-        patched_check.assert_called_with(database=['default'])
+        patched_check.assert_called_with(databases=['default'])
